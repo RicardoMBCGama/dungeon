@@ -5,8 +5,8 @@ require("world")
 -- local player = {}
 
 local scale = {}
-local GAME_RENDER_WIDTH = 160   -- NOTE: 16 multiples only
-local GAME_RENDER_HEIGHT = 160  -- NOTE: 16 multiples only
+local GAME_RENDER_WIDTH = 320   -- NOTE: 16 multiples only
+local GAME_RENDER_HEIGHT = 320  -- NOTE: 16 multiples only
 
 
 
@@ -26,8 +26,9 @@ function love.load()
   love.graphics.setBackgroundColor(0,0,0,255)
 
   world.load()
-  world.init(GAME_RENDER_WIDTH, GAME_RENDER_HEIGHT)
-  world.build()
+
+  world.init()
+  -- world.build()
 
   player.load()
   player.x = GAME_RENDER_WIDTH/2
@@ -42,6 +43,7 @@ function love.load()
 end
 
 function love.update(dt)
+
   -- NOTE: new scaling system
   scaleAmount = love.graphics.getHeight()/GAME_RENDER_HEIGHT
   xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH * scaleAmount)/2
