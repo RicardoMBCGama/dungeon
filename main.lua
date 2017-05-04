@@ -1,6 +1,6 @@
 require("player")
 require("world")
--- require("bomb")
+require("bomb")
 
 -- local player = {}
 
@@ -34,9 +34,9 @@ function love.load()
   player.x = GAME_RENDER_WIDTH/2
   player.y = GAME_RENDER_HEIGHT/2
 
-  -- bomb.load()
-  -- bomb.x = GAME_RENDER_WIDTH/2 + 32
-  -- bomb.y = 32
+  bomb.load()
+  bomb.x = GAME_RENDER_WIDTH/2 + 32
+  bomb.y = 32
 
 
 
@@ -49,7 +49,7 @@ function love.update(dt)
   xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH * scaleAmount)/2
 
   player.update(dt, world)
-  -- bomb.update(dt, world)
+  bomb.update(dt, world, player)
 
 end
 
@@ -76,7 +76,7 @@ function love.draw()
 
 
 	love.graphics.draw(player.img, player.x, player.y, 0, 1, 1, 0, 16)
-  -- love.graphics.draw(bomb.img, bomb.x, bomb.y, 0, 1, 1, 0, 16)
+  love.graphics.draw(bomb.img, bomb.x, bomb.y, 0, 1, 1, 0, 16)
 
   -- NOTE: new scaling system
   love.graphics.pop()

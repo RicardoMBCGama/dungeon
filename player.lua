@@ -3,10 +3,10 @@ player = {
   y = 0,
   width = 16,
   height = 16,
-  speed = 150, --200
+  speed = 200, --200
   img = nil,
   yVelocity = 0,
-  jumpHeight = -300, --400
+  jumpHeight = -350, --400
   gravity = -1000,
   isOnGround = false,
   margin = 0.1
@@ -85,7 +85,7 @@ function player.update(dt, world)
     player.y = player.y + dY
     player.isOnGround = false
   end
-  print(player.isOnGround)
+  -- print(player.isOnGround)
 
   if player.isOnGround then
     player.yVelocity = 0

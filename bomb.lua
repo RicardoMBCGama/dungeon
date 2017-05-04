@@ -17,7 +17,7 @@ function bomb.load()
   bomb.img = love.graphics.newImage('images/bomb1.png')
 end
 
-function bomb.update(dt, world)
+function bomb.update(dt, world, player)
   local dX = 0
   local dY = 0
   local mX, mY
@@ -47,6 +47,21 @@ function bomb.update(dt, world)
 
   if bomb.isOnGround then
     bomb.yVelocity = 0
+
   end
 
+  checkPlayerCollision(player)
+
+end
+
+function checkPlayerCollision(player)
+  if bomb.x < player.x + player.width and
+     player.x < bomb.x + bomb.width and
+     bomb.y < player.y + player.height and
+     player.y < bomb.y + bomb.height then
+       print('player damage')
+       return true
+  else
+       return false
+  end
 end
