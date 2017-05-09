@@ -18,6 +18,8 @@ function player.load()
 end
 
 function player.update(dt, world)
+
+
   local dX = 0
   local dY = 0
   local mX, mY
@@ -97,4 +99,11 @@ function player.update(dt, world)
     end
   end
 
+end
+
+function player.hit()
+  player.isOnGround = false
+  player.yVelocity = player.jumpHeight
+  -- dY = player.yVelocity * dt
+  -- player.y = player.y + dY
 end

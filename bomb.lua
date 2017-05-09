@@ -7,17 +7,17 @@ bomb = {
   img = nil,
   yVelocity = 0,
   jumpHeight = -300, --400
-  gravity = -1000,
+  gravity = -200,
   isOnGround = false,
   margin = 0.1
 
 }
 
-function bomb.load()
-  bomb.img = love.graphics.newImage('images/bomb1.png')
+function bomb:load()
+  self.img = love.graphics.newImage('images/bomb1.png')
 end
 
-function bomb.update(dt, world, player)
+function bomb:update(dt, world, player)
   local dX = 0
   local dY = 0
   local mX, mY
@@ -27,38 +27,38 @@ function bomb.update(dt, world, player)
   local yDirection = ''
 
 
+  self.yVelocity = self.yVelocity - self.gravity * dt
+  dY = self.yVelocity * dt
 
-  bomb.yVelocity = bomb.yVelocity - bomb.gravity * dt
-  dY = bomb.yVelocity * dt
 
-
-    mX, mY = world.absolutCoordToTileCoord(bomb.x, bomb.y + dY)
-    mwX, mwY = world.absolutCoordToTileCoord(bomb.x + bomb.width, bomb.y + dY)
-
+    mX, mY = world.absolutCoordToTileCoord(self.x, self.y + dY)
+    mwX, mwY = world.absolutCoordToTileCoord(self.x + self.width, self.y + dY)
 
   if world.isSolid(mX,mY) or world.isSolid(mwX, mwY) then
-      bomb.y = mY * world.tileSize - bomb.height
-      bomb.isOnGround = true
+      self.y = mY * world.tileSize - self.height
+      self.isOnGround = true
   else
-    bomb.y = bomb.y + dY
-    bomb.isOnGround = false
+    self.y = self.y + dY
+    self.isOnGround = false
   end
 
 
-  if bomb.isOnGround then
-    bomb.yVelocity = 0
+  if self.isOnGround then
+    self.yVelocity = 0
 
   end
 
-  checkPlayerCollision(player)
+  if self:checkPlayerCollision(player) then
+    player.hit()
+  end
 
 end
 
-function checkPlayerCollision(player)
-  if bomb.x < player.x + player.width and
-     player.x < bomb.x + bomb.width and
-     bomb.y < player.y + player.height and
-     player.y < bomb.y + bomb.height then
+function bomb:checkPlayerCollision(player)
+  if self.x < player.x + player.width and
+     player.x < self.x + self.width and
+     self.y < player.y + player.height and
+     player.y < self.y + self.height then
        print('player damage')
        return true
   else
