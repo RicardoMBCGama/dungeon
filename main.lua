@@ -6,13 +6,14 @@ require("utils")
 -- local player = {}
 
 local scale = {}
-local GAME_RENDER_WIDTH = 320   -- NOTE: 16 multiples only
-local GAME_RENDER_HEIGHT = 320  -- NOTE: 16 multiples only
+local GAME_RENDER_WIDTH = 240   -- NOTE: Should be world.w * world.tileSize (16 multiples only)
+local GAME_RENDER_HEIGHT = 240  -- NOTE: Should be world.h * world.tileSize (16 multiples only)
 local bombArray = {}
 
 
 function love.load()
 
+  -- NOTE: Uncomment next line to set window size
   love.window.setMode(640, 640, {resizable=true, vsync=true, minwidth=160, minheight=160})
 
   -- NOTE: new scaling system
@@ -87,21 +88,22 @@ function love.draw()
   -- love.graphics.translate((-player.x + 100) * scaleAmount, (-player.y + 100) * scaleAmount)
   love.graphics.scale(scaleAmount,scaleAmount)
 
-
-
-  love.graphics.print("Width: " .. love.graphics.getWidth() .. "Height: " .. love.graphics.getHeight() , 0, 0)
-
   world.draw()
 
   -- TODO: should try this:
   -- love.graphics.setColor(0, 0, 0)
 
 
-	love.graphics.draw(player.img, player.x, player.y, 0, 1, 1, 0, 16)
-  -- love.graphics.draw(bomb.img, bomb.x, bomb.y, 0, 1, 1, 0, 16)
+	-- love.graphics.draw(player.img, player.x, player.y, 0, 1, 1, 0, 16)
+  player.draw()
+
+
+
   for i = 1, #bombArray do
     love.graphics.draw(bombArray[i].img, bombArray[i].x, bombArray[i].y, 0, 1, 1, 0, 16)
   end
+
+  -- love.graphics.print("Width: " .. love.graphics.getWidth() .. "Height: " .. love.graphics.getHeight() , 0, 0)
 
   -- NOTE: new scaling system
   love.graphics.pop()

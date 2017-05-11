@@ -1,3 +1,7 @@
+local anim8 = require("./externalModules/anim8")
+
+
+
 player = {
   x = 0,
   y = 0,
@@ -5,16 +9,24 @@ player = {
   height = 16,
   speed = 200, --200
   img = nil,
+  animation = nil,
+  jumpAnimation = nil,
   yVelocity = 0,
   jumpHeight = -350, --400
   gravity = -1000,
   isOnGround = false,
   margin = 0.1
 
+
 }
 
 function player.load()
-  player.img = love.graphics.newImage('images/player2.png')
+  -- player.img = love.graphics.newImage('images/player2.png')
+  player.img = love.graphics.newImage('images/playerSprites.png')
+  local g = anim8.newGrid(16, 16, player.img:getWidth(), player.img:getHeight())
+  player.animation = anim8.newAnimation(g('1-4',1), 0.15)
+  
+
 end
 
 function player.update(dt, world)
@@ -27,6 +39,9 @@ function player.update(dt, world)
   local down = 0
   local xDirection = ''
   local yDirection = ''
+
+  player.animation:update(dt)
+
 
   if love.keyboard.isDown('right') then
     if player.x < (love.graphics.getWidth() - player.width) then
@@ -99,6 +114,10 @@ function player.update(dt, world)
     end
   end
 
+end
+
+function player.draw()
+  player.animation:draw(player.img, player.x, player.y, 0, 1, 1, 0, 16)
 end
 
 function player.hit()
