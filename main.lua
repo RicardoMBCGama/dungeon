@@ -2,6 +2,7 @@ require("player")
 require("world")
 require("bomb")
 require("utils")
+require("particle")
 
 -- local player = {}
 
@@ -46,6 +47,9 @@ function love.load()
     bombArray[i].y = 32
   end
 
+  smallParticle = utils.copy(particle)
+  smallParticle:load()
+
   -- bomb.x = GAME_RENDER_WIDTH/2 + 32
   -- bomb.y = 32
 
@@ -67,11 +71,9 @@ function love.update(dt)
     bombArray[i]:update(dt,world,player)
   end
 
-  -- for i = 1, #bombArray do
-  --   if bombArray[i].isOnGround then
-  --     bombArray[i].y = 32
-  --   end
-  -- end
+  smallParticle:update(dt, world)
+
+
 
 end
 
@@ -102,6 +104,8 @@ function love.draw()
   for i = 1, #bombArray do
     love.graphics.draw(bombArray[i].img, bombArray[i].x, bombArray[i].y, 0, 1, 1, 0, 16)
   end
+
+  smallParticle:draw()
 
   -- love.graphics.print("Width: " .. love.graphics.getWidth() .. "Height: " .. love.graphics.getHeight() , 0, 0)
 

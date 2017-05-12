@@ -10,7 +10,6 @@ player = {
   speed = 200, --200
   img = nil,
   animation = nil,
-  jumpAnimation = nil,
   yVelocity = 0,
   jumpHeight = -350, --400
   gravity = -1000,
@@ -24,8 +23,11 @@ function player.load()
   -- player.img = love.graphics.newImage('images/player2.png')
   player.img = love.graphics.newImage('images/playerSprites.png')
   local g = anim8.newGrid(16, 16, player.img:getWidth(), player.img:getHeight())
-  player.animation = anim8.newAnimation(g('1-4',1), 0.15)
-  
+
+  player.basicAnimation = anim8.newAnimation(g('1-4',1), 0.15)
+  player.jumpAnimation = anim8.newAnimation(g('1-4',2), 0.15, 'pauseAtEnd')
+
+  player.animation = player.basicAnimation
 
 end
 
@@ -41,6 +43,7 @@ function player.update(dt, world)
   local yDirection = ''
 
   player.animation:update(dt)
+
 
 
   if love.keyboard.isDown('right') then
@@ -94,6 +97,7 @@ function player.update(dt, world)
 
       player.y = mY * world.tileSize - player.height
       player.isOnGround = true
+      player.animation = player.basicAnimation
     else
       player.y = mY * world.tileSize + player.height
       player.yVelocity = - player.gravity * dt
@@ -108,6 +112,7 @@ function player.update(dt, world)
     player.yVelocity = 0
     if love.keyboard.isDown('space') then
       player.isOnGround = false
+      player.animation = player.jumpAnimation
       player.yVelocity = player.jumpHeight
       dY = player.yVelocity * dt
       player.y = player.y + dY
@@ -123,6 +128,5 @@ end
 function player.hit()
   player.isOnGround = false
   player.yVelocity = player.jumpHeight
-  -- dY = player.yVelocity * dt
-  -- player.y = player.y + dY
+
 end
