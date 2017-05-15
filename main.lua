@@ -6,7 +6,8 @@ require("particle")
 
 -- local player = {}
 
-local scale = {}
+local scaleAmount = 0
+local xPadding = 0
 local GAME_RENDER_WIDTH = 240   -- NOTE: Should be world.w * world.tileSize (16 multiples only)
 local GAME_RENDER_HEIGHT = 240  -- NOTE: Should be world.h * world.tileSize (16 multiples only)
 local bombArray = {}
@@ -19,42 +20,35 @@ function love.load()
 
   -- NOTE: new scaling system
   scaleAmount = love.graphics.getHeight()/GAME_RENDER_HEIGHT
-  xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH * scaleAmount)/2
+  xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH)/2
 
 
 
   love.graphics.setDefaultFilter('nearest', 'nearest')
 
 
-  love.graphics.setBackgroundColor(0,0,0,255)
+  love.graphics.setBackgroundColor(29,39,34,255)
 
   world.load()
 
   world.init()
-  -- world.build()
+
 
   player.load()
   player.x = GAME_RENDER_WIDTH/2
   player.y = GAME_RENDER_HEIGHT/2
 
-  -- bomb.load()
 
 
-  for i = 1, 5  do
-    bombArray[i] = utils.copy(bomb)
-    bombArray[i]:load()
-    bombArray[i].x = 31 * i
-    bombArray[i].y = 32
-  end
+  -- for i = 1, 5  do
+  --   bombArray[i] = utils.copy(bomb)
+  --   bombArray[i]:load()
+  --   bombArray[i].x = 31 * i
+  --   bombArray[i].y = 32
+  -- end
 
-  smallParticle = utils.copy(particle)
-  smallParticle:load()
-
-  -- bomb.x = GAME_RENDER_WIDTH/2 + 32
-  -- bomb.y = 32
-
-
-
+  -- smallParticle = utils.copy(particle)
+  -- smallParticle:load()
 
 
 end
@@ -63,15 +57,15 @@ function love.update(dt)
 
   -- NOTE: new scaling system
   scaleAmount = love.graphics.getHeight()/GAME_RENDER_HEIGHT
-  xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH * scaleAmount)/2
+  xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH)/2
 
   player.update(dt, world)
-  -- bomb.update(dt, world, player)
-  for i = 1, #bombArray do
-    bombArray[i]:update(dt,world,player)
-  end
-
-  smallParticle:update(dt, world)
+  --
+  -- for i = 1, #bombArray do
+  --   bombArray[i]:update(dt,world,player)
+  -- end
+  --
+  -- smallParticle:update(dt, world)
 
 
 
@@ -79,15 +73,20 @@ end
 
 function love.draw()
 
+  print(scaleAmount)
+  print(xPadding)
+
 
 
   -- NOTE: new scaling system
   love.graphics.push()
 
   -- Adjust tilemap to screen on the left side
+  -- NOTE: Note working properly, needs to be fixed
   love.graphics.translate(-world.worldOffsetX * world.tileSize * scaleAmount , 0 )
-  love.graphics.translate(xPadding, 0)
+  love.graphics.translate(xPadding/scaleAmount, 0)
   -- love.graphics.translate((-player.x + 100) * scaleAmount, (-player.y + 100) * scaleAmount)
+
   love.graphics.scale(scaleAmount,scaleAmount)
 
   world.draw()
@@ -98,16 +97,16 @@ function love.draw()
 
 	-- love.graphics.draw(player.img, player.x, player.y, 0, 1, 1, 0, 16)
   player.draw()
-
-
-
-  for i = 1, #bombArray do
-    love.graphics.draw(bombArray[i].img, bombArray[i].x, bombArray[i].y, 0, 1, 1, 0, 16)
-  end
-
-  smallParticle:draw()
-
-  -- love.graphics.print("Width: " .. love.graphics.getWidth() .. "Height: " .. love.graphics.getHeight() , 0, 0)
+  --
+  --
+  --
+  -- for i = 1, #bombArray do
+  --   love.graphics.draw(bombArray[i].img, bombArray[i].x, bombArray[i].y, 0, 1, 1, 0, 16)
+  -- end
+  --
+  -- smallParticle:draw()
+  --
+  -- -- love.graphics.print("Width: " .. love.graphics.getWidth() .. "Height: " .. love.graphics.getHeight() , 0, 0)
 
   -- NOTE: new scaling system
   love.graphics.pop()

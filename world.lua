@@ -20,7 +20,9 @@ world = {
   tileMap = {},
   renderMap = {},
   spriteImages = {},
-  tiledTileMap = require('images/tilemap2')
+  tiledTileMap = require('images/tilemap4'),
+  tileSetWidth = 0,
+  tileSetHeight = 0
 
 
 }
@@ -29,7 +31,8 @@ function world.load()
   world.w = world.tiledTileMap.width
   world.h = world.tiledTileMap.height
   world.tileSize = world.tiledTileMap.tilewidth -- TODO: use tilewidth and tileheight
-
+  world.tileSetWidth = world.tiledTileMap.tilesets[1].imagewidth
+  world.tileSetHeight = world.tiledTileMap.tilesets[1].imageheight --NOTE: Not used, need to implement this
 
   world.spriteImages = {
     emptySprite = "",
@@ -55,7 +58,7 @@ function world.draw()
   for i = 1, world.w do
     for j = 1, world.h do
       if world.tileMap[i][j] ~= 0 then
-        love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad((world.tileMap[i][j]-1) * world.tileSize,0,world.tileSize, world.tileSize,12*16, 16),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, 16)
+        love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad((world.tileMap[i][j]-1) * world.tileSize,0,world.tileSize, world.tileSize,17*world.tileSize, world.tileSize),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
       end
     end
   end

@@ -5,8 +5,8 @@ local anim8 = require("./externalModules/anim8")
 player = {
   x = 0,
   y = 0,
-  width = 16,
-  height = 16,
+  width = 8,
+  height = 8,
   speed = 200, --200
   img = nil,
   animation = nil,
@@ -21,11 +21,11 @@ player = {
 
 function player.load()
   -- player.img = love.graphics.newImage('images/player2.png')
-  player.img = love.graphics.newImage('images/playerSprites.png')
-  local g = anim8.newGrid(16, 16, player.img:getWidth(), player.img:getHeight())
+  player.img = love.graphics.newImage('images/Sprite-0004.png')
+  local g = anim8.newGrid(8, 8, player.img:getWidth(), player.img:getHeight())
 
   player.basicAnimation = anim8.newAnimation(g('1-4',1), 0.15)
-  player.jumpAnimation = anim8.newAnimation(g('1-4',2), 0.15, 'pauseAtEnd')
+  -- player.jumpAnimation = anim8.newAnimation(g('1-4',2), 0.15, 'pauseAtEnd')
 
   player.animation = player.basicAnimation
 
@@ -43,6 +43,7 @@ function player.update(dt, world)
   local yDirection = ''
 
   player.animation:update(dt)
+
 
 
 
@@ -112,7 +113,7 @@ function player.update(dt, world)
     player.yVelocity = 0
     if love.keyboard.isDown('space') then
       player.isOnGround = false
-      player.animation = player.jumpAnimation
+      -- player.animation = player.jumpAnimation
       player.yVelocity = player.jumpHeight
       dY = player.yVelocity * dt
       player.y = player.y + dY
@@ -122,7 +123,7 @@ function player.update(dt, world)
 end
 
 function player.draw()
-  player.animation:draw(player.img, player.x, player.y, 0, 1, 1, 0, 16)
+  player.animation:draw(player.img, player.x, player.y, 0, 1, 1, 0, 8)
 end
 
 function player.hit()
