@@ -12,10 +12,10 @@ local fx = {
   drawAnim = true
 }
 
-function fx:load()
-  self.img = love.graphics.newImage('images/fxSmokeJump.png')
-  local g = anim8.newGrid(12, 8, self.img:getWidth(), self.img:getHeight())
-  self.animation = anim8.newAnimation(g('1-7',1), 0.1, "pauseAtEnd")
+function fx:load(spriteSheet, spritesWidth, spritesHeight, frames, endFunction)
+  self.img = love.graphics.newImage(spriteSheet)
+  local g = anim8.newGrid(spritesWidth, spritesHeight, self.img:getWidth(), self.img:getHeight())
+  self.animation = anim8.newAnimation(g(frames,1), 0.1, "pauseAtEnd" or endFunction)
 end
 
 function fx:init(x, y)
@@ -24,6 +24,7 @@ function fx:init(x, y)
   self.animation:gotoFrame(1)
   self.animation:resume()
   self.starAnimation = true
+
 end
 
 
