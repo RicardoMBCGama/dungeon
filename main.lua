@@ -85,7 +85,7 @@ function love.draw()
   -- NOTE: Note working properly, needs to be fixed
   love.graphics.translate(-world.worldOffsetX * world.tileSize * scaleAmount , 0 )
   love.graphics.translate(xPadding/scaleAmount, 0)
-  -- love.graphics.translate((-player.x + 100) * scaleAmount, (-player.y + 100) * scaleAmount)
+  -- love.graphics.translate((-player.x + GAME_RENDER_WIDTH/2) * scaleAmount, (-player.y + GAME_RENDER_HEIGHT/2) * scaleAmount)
 
   love.graphics.scale(scaleAmount,scaleAmount)
 

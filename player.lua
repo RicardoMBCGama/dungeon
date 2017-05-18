@@ -48,7 +48,7 @@ function player.update(dt, world)
 
 
   if love.keyboard.isDown('right') then
-    if player.x < (love.graphics.getWidth() - player.width) then
+    if player.x < (world.w * world.tileSize - player.width) then
       dX = player.speed * dt
       xDirection = 'right'
     end
