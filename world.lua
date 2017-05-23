@@ -47,12 +47,19 @@ function world.init()
     for j = 1, world.h do
       world.tileMap[i][j] = 0
       world.renderMap[i][j] = 0
-      -- for tileLayer = 1, #world.tiledTileMap.layers, 1 do
-        -- world.renderMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
-        -- if world.tileMap[i][j] == 0 and world.tiledTileMap.layers[tileLayer].properties["isSolid"] == true then
-          world.tileMap[i][j] = world.tiledTileMap.layers[1].data[i + (j - 1) * world.w]
-        -- end
-      --end
+      for tileLayer = 1, #world.tiledTileMap.layers, 1 do
+        if world.tiledTileMap.layers[tileLayer].visible and world.tiledTileMap.layers[tileLayer].type == "tilelayer" then
+        -- renderMap is used for rendering so it will have all layers
+        if world.renderMap[i][j] == 0 then
+          world.renderMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
+        end
+
+        -- tileMap is used for collision so it will only have solid layers
+        if world.tileMap[i][j] == 0 and world.tiledTileMap.layers[tileLayer].properties["isSolid"] == true then
+          world.tileMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
+        end
+      end
+      end
     end
   end
 
@@ -62,8 +69,8 @@ function world.draw()
 
   for i = 1, world.w do
     for j = 1, world.h do
-      if world.tileMap[i][j] ~= 0 then
-        love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad((world.tileMap[i][j]-1) * world.tileSize,0,world.tileSize, world.tileSize,17*world.tileSize, world.tileSize),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
+      if world.renderMap[i][j] ~= 0 then
+        love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad((world.renderMap[i][j]-1) * world.tileSize,0,world.tileSize, world.tileSize,17*world.tileSize, world.tileSize),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
       end
     end
   end

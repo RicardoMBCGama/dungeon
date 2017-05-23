@@ -8,7 +8,7 @@ return {
   height = 20,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 1,
+  nextobjectid = 3,
   properties = {},
   tilesets = {
     {
@@ -106,6 +106,31 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "Object Layer 1",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 1,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 112.041,
+          y = 40.8732,
+          width = 11.3003,
+          height = 8.89594,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
       }
     }
   }
