@@ -1,20 +1,26 @@
 local anim8 = require("./externalModules/anim8")
-
-
+-- local fx = require("fx")
 
 player = {
   x = 0,
   y = 0,
   width = 8,
   height = 8,
-  speed = 200, --200
+  speed = 100, --200
   img = nil,
   animation = nil,
   yVelocity = 0,
-  jumpHeight = -350, --400
-  gravity = -1000,
+  jumpHeight = -300, --400
+  gravity = -800,
   isOnGround = false,
-  margin = 0.1
+  margin = 0.1,
+  isDeath = false,
+  score = 0,
+  life = 3,
+  fx = require("fx")
+
+
+
 
 
 }
@@ -28,6 +34,8 @@ function player.load()
   -- player.jumpAnimation = anim8.newAnimation(g('1-4',2), 0.15, 'pauseAtEnd')
 
   player.animation = player.basicAnimation
+  player.fx:load("images/fxPlayerJump.png", 12, 8 ,"1-6")
+
 
 end
 
@@ -114,20 +122,38 @@ function player.update(dt, world)
     if love.keyboard.isDown('space') then
       player.isOnGround = false
       -- player.animation = player.jumpAnimation
+      player.fx:init(player.x, player.y)
+
       player.yVelocity = player.jumpHeight
       dY = player.yVelocity * dt
       player.y = player.y + dY
     end
   end
 
+  if player.fx.starAnimation then
+    player.fx:update(dt)
+  end
+
 end
 
 function player.draw()
   player.animation:draw(player.img, player.x, player.y, 0, 1, 1, 0, 8)
+  player.fx:draw()
+
 end
 
 function player.hit()
   player.isOnGround = false
   player.yVelocity = player.jumpHeight
+  if player.life > 0 then
+    player.life = player.life - 1
+  else
+    player.isDeath = true
+  end
 
+
+end
+
+function player.scoreIncrease()
+  player.score = player.score + 1
 end

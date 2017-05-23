@@ -73,9 +73,6 @@ end
 
 function love.draw()
 
-  print(scaleAmount)
-  print(xPadding)
-
 
 
   -- NOTE: new scaling system

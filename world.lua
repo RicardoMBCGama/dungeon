@@ -1,15 +1,13 @@
-
 -- Reads the world from a .lua Tiled tilemap
 -- TODO:
---  - read several layers
---  - for each layer, validate if it is solid or not via layer property 'isSolid' (use renderMap and tileMap)
---  - enable different sprite sheets
+-- - read several layers
+-- - for each layer, validate if it is solid or not via layer property 'isSolid' (use renderMap and tileMap)
+-- - enable different sprite sheets
 
 tileContent = {
   tEmpty = 0,
   tSolid = 1
 }
-
 
 world = {
   w = nil,
@@ -24,7 +22,6 @@ world = {
   tileSetWidth = 0,
   tileSetHeight = 0
 
-
 }
 
 function world.load()
@@ -37,17 +34,25 @@ function world.load()
   world.spriteImages = {
     emptySprite = "",
     panelGrey = love.graphics.newImage('images/block2.png'),
-    tileSet  = love.graphics.newImage('images/' .. world.tiledTileMap.tilesets[1].image),
+    tileSet = love.graphics.newImage('images/' .. world.tiledTileMap.tilesets[1].image),
   }
 
 end
 
 function world.init()
+
   for i = 1, world.w do
     world.tileMap[i] = {}
     world.renderMap[i] = {}
     for j = 1, world.h do
-      world.tileMap[i][j] = world.tiledTileMap.layers[1].data[i + (j - 1) * world.w]
+      world.tileMap[i][j] = 0
+      world.renderMap[i][j] = 0
+      -- for tileLayer = 1, #world.tiledTileMap.layers, 1 do
+        -- world.renderMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
+        -- if world.tileMap[i][j] == 0 and world.tiledTileMap.layers[tileLayer].properties["isSolid"] == true then
+          world.tileMap[i][j] = world.tiledTileMap.layers[1].data[i + (j - 1) * world.w]
+        -- end
+      --end
     end
   end
 
@@ -63,7 +68,6 @@ function world.draw()
     end
   end
 end
-
 
 function world.build()
   for i = 1, world.w do
@@ -108,7 +112,6 @@ function world.absolutCoordToTileCoord(iX, iY)
   return x, y
 end
 
-
 function world.isSolid(mX, mY)
   local isSolid
 
@@ -117,7 +120,6 @@ function world.isSolid(mX, mY)
   else
     isSolid = true
   end
-
 
   return isSolid
 end
