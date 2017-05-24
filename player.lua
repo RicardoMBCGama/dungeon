@@ -17,6 +17,7 @@ player = {
   isDeath = false,
   score = 0,
   life = 3,
+  xDirection = "right",
   fx = require("fx")
 
 
@@ -37,6 +38,7 @@ function player.load()
   player.fx:load("images/fxPlayerJump.png", 12, 8 ,"1-6")
 
 
+
 end
 
 function player.update(dt, world)
@@ -54,20 +56,19 @@ function player.update(dt, world)
 
 
 
-
   if love.keyboard.isDown('right') then
     if player.x < (world.w * world.tileSize - player.width) then
       dX = player.speed * dt
-      xDirection = 'right'
+      player.xDirection = 'right'
     end
   elseif love.keyboard.isDown('left') then
     if player.x > 0 then
       dX = -player.speed * dt
-      xDirection = 'left'
+      player.xDirection = 'left'
     end
   end
 
-  if xDirection == 'right' then
+  if player.xDirection == 'right' then
     mX, mY = world.absolutCoordToTileCoord(player.x + dX + player.width, player.y)
 
     if mX <= world.w then
@@ -77,7 +78,7 @@ function player.update(dt, world)
         player.x = player.x + dX
       end
     end
-  elseif xDirection == 'left' then
+  elseif player.xDirection == 'left' then
     mX, mY = world.absolutCoordToTileCoord(player.x + dX , player.y)
 
     if mX >= 1 then
@@ -139,7 +140,6 @@ end
 function player.draw()
   player.animation:draw(player.img, player.x, player.y, 0, 1, 1, 0, 8)
   player.fx:draw()
-
 end
 
 function player.hit()
