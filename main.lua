@@ -8,15 +8,15 @@ require("particle")
 
 local scaleAmount = 0
 local xPadding = 0
-local GAME_RENDER_WIDTH = 240   -- NOTE: Should be world.w * world.tileSize (16 multiples only)
-local GAME_RENDER_HEIGHT = 240  -- NOTE: Should be world.h * world.tileSize (16 multiples only)
+local GAME_RENDER_WIDTH = 160   -- NOTE: Should be world.w * world.tileSize (16 multiples only)
+local GAME_RENDER_HEIGHT =160  -- NOTE: Should be world.h * world.tileSize (16 multiples only)
 local bombArray = {}
 
 
 function love.load()
 
   -- NOTE: Uncomment next line to set window size
-  love.window.setMode(640, 640, {resizable=true, vsync=true, minwidth=160, minheight=160})
+  love.window.setMode(800, 600, {resizable=true, vsync=true, minwidth=160, minheight=160})
 
   -- NOTE: new scaling system
   scaleAmount = love.graphics.getHeight()/GAME_RENDER_HEIGHT
@@ -79,10 +79,12 @@ function love.draw()
   love.graphics.push()
 
   -- Adjust tilemap to screen on the left side
-  -- NOTE: Note working properly, needs to be fixed
+  -- NOTE: Not working properly, needs to be fixed
   love.graphics.translate(-world.worldOffsetX * world.tileSize * scaleAmount , 0 )
   love.graphics.translate(xPadding/scaleAmount, 0)
+
   -- love.graphics.translate((-player.x + GAME_RENDER_WIDTH/2) * scaleAmount, (-player.y + GAME_RENDER_HEIGHT/2) * scaleAmount)
+
 
   love.graphics.scale(scaleAmount,scaleAmount)
 
