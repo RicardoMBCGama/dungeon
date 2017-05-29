@@ -70,7 +70,9 @@ function world.draw()
   for i = 1, world.w do
     for j = 1, world.h do
       if world.renderMap[i][j] ~= 0 then
-        love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad((world.renderMap[i][j]-1) * world.tileSize,0,world.tileSize, world.tileSize,world.tiledTileMap.tilesets[1].tilecount*world.tileSize, world.tileSize),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
+        -- love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad((world.renderMap[i][j]-1) * world.tileSize,0,world.tileSize, world.tileSize,world.tiledTileMap.tilesets[1].tilecount*world.tileSize, world.tileSize),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
+
+        love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad(((world.renderMap[i][j]-1)* world.tileSize % world.tiledTileMap.tilesets[1].imagewidth),(math.floor((world.renderMap[i][j]-1)* world.tileSize/world.tiledTileMap.tilesets[1].imagewidth))*world.tileSize,world.tileSize, world.tileSize,world.tiledTileMap.tilesets[1].imagewidth, world.tiledTileMap.tilesets[1].imageheight),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
       end
     end
   end
