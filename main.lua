@@ -16,7 +16,7 @@ local bombArray = {}
 function love.load()
 
   -- NOTE: Uncomment next line to set window size
-  love.window.setMode(800, 600, {resizable=true, vsync=true, minwidth=160, minheight=160})
+  love.window.setMode(600, 600, {resizable=true, vsync=true, minwidth=160, minheight=160})
 
   -- NOTE: new scaling system
   scaleAmount = love.graphics.getHeight()/GAME_RENDER_HEIGHT
@@ -72,6 +72,7 @@ function love.update(dt)
 end
 
 function love.draw()
+  
 
 
 
@@ -81,7 +82,13 @@ function love.draw()
   -- Adjust tilemap to screen on the left side
   -- NOTE: Not working properly, needs to be fixed
   love.graphics.translate(-world.worldOffsetX * world.tileSize * scaleAmount , 0 )
-  love.graphics.translate(xPadding/scaleAmount, 0)
+  -- love.graphics.translate(xPadding/scaleAmount, 0)
+
+  local trans = math.floor(player.x / GAME_RENDER_WIDTH)
+
+  if trans > 0 then
+    love.graphics.translate(- trans * GAME_RENDER_WIDTH* scaleAmount, 0)
+  end
 
   -- love.graphics.translate((-player.x + GAME_RENDER_WIDTH/2) * scaleAmount, (-player.y + GAME_RENDER_HEIGHT/2) * scaleAmount)
 
