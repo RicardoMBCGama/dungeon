@@ -32,6 +32,7 @@ function love.load()
   world.load()
 
   world.init()
+  world.placeObject("coinLayer")
 
 
   player.load()
@@ -60,6 +61,7 @@ function love.update(dt)
   xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH)/2
 
   player.update(dt, world)
+  world.update(dt, player)
   --
   -- for i = 1, #bombArray do
   --   bombArray[i]:update(dt,world,player)
@@ -72,7 +74,7 @@ function love.update(dt)
 end
 
 function love.draw()
-  
+
 
 
 

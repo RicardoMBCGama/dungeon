@@ -17,6 +17,11 @@ function coin:load()
   self.fx:load("images/fxCoinCollect.png", 12, 8 ,"1-5", nil)
 end
 
+function coin:init(x, y)
+  self.x = x
+  self.y = y
+end
+
 function coin:update(dt, world, player)
 
   if self:checkPlayerCollision(player) then

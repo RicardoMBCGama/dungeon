@@ -3,6 +3,9 @@
 -- - read several layers
 -- - for each layer, validate if it is solid or not via layer property 'isSolid' (use renderMap and tileMap)
 -- - enable different sprite sheets
+require("coin")
+require("utils")
+
 
 tileContent = {
   tEmpty = 0,
@@ -20,7 +23,8 @@ world = {
   spriteImages = {},
   tiledTileMap = require('images/tilemap4'),
   tileSetWidth = 0,
-  tileSetHeight = 0
+  tileSetHeight = 0,
+  objectItems = {}
 
 }
 
@@ -49,16 +53,16 @@ function world.init()
       world.renderMap[i][j] = 0
       for tileLayer = 1, #world.tiledTileMap.layers, 1 do
         if world.tiledTileMap.layers[tileLayer].visible and world.tiledTileMap.layers[tileLayer].type == "tilelayer" then
-        -- renderMap is used for rendering so it will have all layers
-        if world.renderMap[i][j] == 0 then
-          world.renderMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
-        end
+          -- renderMap is used for rendering so it will have all layers
+          if world.renderMap[i][j] == 0 then
+            world.renderMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
+          end
 
-        -- tileMap is used for collision so it will only have solid layers
-        if world.tileMap[i][j] == 0 and world.tiledTileMap.layers[tileLayer].properties["isSolid"] == true then
-          world.tileMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
+          -- tileMap is used for collision so it will only have solid layers
+          if world.tileMap[i][j] == 0 and world.tiledTileMap.layers[tileLayer].properties["isSolid"] == true then
+            world.tileMap[i][j] = world.tiledTileMap.layers[tileLayer].data[i + (j - 1) * world.w]
+          end
         end
-      end
       end
     end
   end
@@ -75,6 +79,10 @@ function world.draw()
         love.graphics.draw(world.spriteImages.tileSet, love.graphics.newQuad(((world.renderMap[i][j]-1)* world.tileSize % world.tiledTileMap.tilesets[1].imagewidth),(math.floor((world.renderMap[i][j]-1)* world.tileSize/world.tiledTileMap.tilesets[1].imagewidth))*world.tileSize,world.tileSize, world.tileSize,world.tiledTileMap.tilesets[1].imagewidth, world.tiledTileMap.tilesets[1].imageheight),i * world.tileSize, j * world.tileSize, 0, 1, 1, 0, world.tileSize)
       end
     end
+  end
+
+  for i = 1, #world.objectItems do
+    world.objectItems[i]:draw()
   end
 end
 
@@ -131,4 +139,30 @@ function world.isSolid(mX, mY)
   end
 
   return isSolid
+end
+
+function world.placeObject(objectLayer)
+
+  for tileLayer = 1, #world.tiledTileMap.layers, 1 do
+    if world.tiledTileMap.layers[tileLayer].visible and world.tiledTileMap.layers[tileLayer].type == "objectgroup" then
+
+      for object = 1, #world.tiledTileMap.layers[tileLayer].objects do
+        -- local objectItem = utils.copy(world.tiledTileMap.layers[tileLayer].objects[object].name)
+        local objectItem = utils.copy(coin)
+        objectItem:load()
+        objX = world.tiledTileMap.layers[tileLayer].objects[object].x
+        objY = world.tiledTileMap.layers[tileLayer].objects[object].y
+        objectItem:init(objX, objY)
+        table.insert(world.objectItems, objectItem)
+
+    end
+  end
+  end
+end
+
+function world.update(dt,player)
+
+  for i = 1, #world.objectItems do
+    world.objectItems[i]:update(dt,world,player)
+  end
 end
