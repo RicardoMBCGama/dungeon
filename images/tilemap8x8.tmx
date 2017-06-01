@@ -57,7 +57,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup color="#ff0000" name="Object Layer 1">
-  <object id="1" x="120" y="80" width="8" height="8"/>
+ <objectgroup color="#ff0000" name="coinLayer">
+  <object id="1" name="coin" x="120" y="80" width="8" height="8"/>
  </objectgroup>
 </map>

@@ -115,7 +115,7 @@ return {
     },
     {
       type = "objectgroup",
-      name = "Object Layer 1",
+      name = "coinLayer",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -125,7 +125,7 @@ return {
       objects = {
         {
           id = 1,
-          name = "",
+          name = "coin",
           type = "",
           shape = "rectangle",
           x = 120,
