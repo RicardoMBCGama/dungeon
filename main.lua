@@ -59,9 +59,10 @@ function love.update(dt)
   -- NOTE: new scaling system
   scaleAmount = love.graphics.getHeight()/GAME_RENDER_HEIGHT
   xPadding = (love.graphics.getWidth() - GAME_RENDER_WIDTH)/2
+  world.update(dt, player)
 
   player.update(dt, world)
-  world.update(dt, player)
+
   --
   -- for i = 1, #bombArray do
   --   bombArray[i]:update(dt,world,player)

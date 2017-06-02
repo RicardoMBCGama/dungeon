@@ -4,8 +4,9 @@
 -- - for each layer, validate if it is solid or not via layer property 'isSolid' (use renderMap and tileMap)
 -- - enable different sprite sheets
 require("coin")
+require("bomb")
+-- require("coin")
 require("utils")
-
 
 tileContent = {
   tEmpty = 0,
@@ -147,22 +148,30 @@ function world.placeObject(objectLayer)
     if world.tiledTileMap.layers[tileLayer].visible and world.tiledTileMap.layers[tileLayer].type == "objectgroup" then
 
       for object = 1, #world.tiledTileMap.layers[tileLayer].objects do
-        -- local objectItem = utils.copy(world.tiledTileMap.layers[tileLayer].objects[object].name)
-        local objectItem = utils.copy(coin)
+        -- copy object - needs to be required and global
+        local objectItem = utils.copy(_G[world.tiledTileMap.layers[tileLayer].objects[object].name])
+
         objectItem:load()
-        objX = world.tiledTileMap.layers[tileLayer].objects[object].x
-        objY = world.tiledTileMap.layers[tileLayer].objects[object].y
+        objX = world.tiledTileMap.layers[tileLayer].objects[object].x + 1 * world.tileSize + objectItem.margin
+        objY = world.tiledTileMap.layers[tileLayer].objects[object].y + 1 * world.tileSize + objectItem.margin
         objectItem:init(objX, objY)
         table.insert(world.objectItems, objectItem)
 
+      end
     end
-  end
   end
 end
 
 function world.update(dt,player)
 
-  for i = 1, #world.objectItems do
-    world.objectItems[i]:update(dt,world,player)
+  local i=1
+
+  while world.objectItems[i] do
+    if world.objectItems[i].canDestroy then
+      table.remove(world.objectItems, i)
+    else
+      world.objectItems[i]:update(dt, world, player)
+    end
+    i = i + 1
   end
 end

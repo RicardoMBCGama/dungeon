@@ -121,7 +121,7 @@ function bullet:update(dt, world, player)
   -- --   self.hasExploded = true
   -- -- end
   --
-  if self.fx.starAnimation then
+  if self.fx.startAnimation then
     self.fx:update(dt)
   end
 end

@@ -23,8 +23,7 @@ function fx:init(x, y)
   self.y = y
   self.animation:gotoFrame(1)
   self.animation:resume()
-  self.starAnimation = true
-
+  self.startAnimation = true
 end
 
 

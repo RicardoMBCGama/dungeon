@@ -8,13 +8,14 @@ coin = {
   img = nil,
   margin = 0.1,
   wasCollected = false,
-  fx = require("fx")
+  fx = require("fx"),
+  canDestroy = false,
 
 }
 
 function coin:load()
   self.img = love.graphics.newImage('images/coin1.png')
-  self.fx:load("images/fxCoinCollect.png", 12, 8 ,"1-5", nil)
+  self.fx:load("images/fxCoinCollect.png", 12, 8 ,"1-5",nil)
 end
 
 function coin:init(x, y)
@@ -28,12 +29,13 @@ function coin:update(dt, world, player)
     player.scoreIncrease()
     self.fx:init(self.x, self.y)
     self.wasCollected = true
+    self.canDestroy = true
   end
 
-  if self.fx.starAnimation then
+  if self.fx.startAnimation then
     self.fx:update(dt)
   end
-
+  
 end
 
 function coin:checkPlayerCollision(player)
@@ -55,5 +57,4 @@ end
 
 function coin:onfxAnimationEnd()
   self.fx.startAnimation = false
-
 end

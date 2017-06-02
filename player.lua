@@ -131,7 +131,7 @@ function player.update(dt, world)
     end
   end
 
-  if player.fx.starAnimation then
+  if player.fx.startAnimation then
     player.fx:update(dt)
   end
 
