@@ -5,6 +5,7 @@
 -- - enable different sprite sheets
 require("coin")
 require("bomb")
+-- require("fx")
 -- require("coin")
 require("utils")
 
@@ -25,7 +26,8 @@ world = {
   tiledTileMap = require('images/tilemap4'),
   tileSetWidth = 0,
   tileSetHeight = 0,
-  objectItems = {}
+  objectItems = {},
+  fxItems = {}
 
 }
 
@@ -84,6 +86,10 @@ function world.draw()
 
   for i = 1, #world.objectItems do
     world.objectItems[i]:draw()
+  end
+
+  for i = 1, #world.fxItems do
+    world.fxItems[i]:draw()
   end
 end
 
@@ -164,14 +170,33 @@ end
 
 function world.update(dt,player)
 
+  -- Update ObjectItems
   local i=1
 
   while world.objectItems[i] do
     if world.objectItems[i].canDestroy then
+      -- needs to be checked if the object has efects
+      local fxItem = require("fx")
+      fxItem:load("images/fxCoinCollect.png", 12, 8 ,"1-5",nil)
+      objX = world.objectItems[i].x
+      objY = world.objectItems[i].y
+      fxItem:init(objX, objY)
+      table.insert(world.fxItems, fxItem)
+
       table.remove(world.objectItems, i)
+
     else
       world.objectItems[i]:update(dt, world, player)
     end
     i = i + 1
   end
+
+  -- Update fxItems
+  i=0
+  while world.fxItems[i] do
+    world.objectItems[i]:update(dt)
+  end
+
+
+
 end
