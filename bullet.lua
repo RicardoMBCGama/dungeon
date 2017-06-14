@@ -25,8 +25,6 @@ bullet = {
 
 function bullet:load()
   self.img = love.graphics.newImage('images/bullet.png')
-  -- self.fx:load("images/fxSmokeJump.png", 12, 8 ,"1-8", nil)
-
   self.fxBulletExplosion = love.graphics.newImage("images/fxCoinCollect.png")
   local g = anim8.newGrid(12, 8, self.fxBulletExplosion:getWidth(), self.fxBulletExplosion:getHeight())
   self.animations["exploded"] = anim8.newAnimation(g("1-5",1), 0.1, function(animation) animation:gotoFrame(6) animation:pause() self.canDestroy = true end)
@@ -54,13 +52,9 @@ function bullet:update(dt, world, player)
   local mX, mY
   local left = 0
   local down = 0
-  -- local self.xDirection = ''
   local yDirection = ''
 
-
-  -- if self.wasShoot then
   dX = self.speed * dt
-
   if self.hasExploded then
     self.animations["exploded"]:update(dt)
   else
@@ -70,8 +64,6 @@ function bullet:update(dt, world, player)
 
     if mX <= world.w then
       if world.isSolid (mX, mY) then
-
-        -- self.fx:init(self.x, self.y)
         self.hasExploded = true
         self.animations["exploded"]:resume()
       -- elseif self.checkPlayerCollision(self.target) then
@@ -88,8 +80,6 @@ function bullet:update(dt, world, player)
     if mX >= 1 then
 
       if world.isSolid (mX, mY) then
-
-        -- self.fx:init(self.x, self.y)
         self.hasExploded = true
         self.animations["exploded"]:resume()
       else
@@ -97,7 +87,6 @@ function bullet:update(dt, world, player)
       end
     end
   end
-
 
 end
 end
@@ -114,16 +103,9 @@ function bullet:checkPlayerCollision()
 end
 
 function bullet:draw()
-
-
-
   if self.hasExploded then
     self.animations["exploded"]:draw(self.fxBulletExplosion, self.x, self.y, 0, 1, 1, 0, 8)
   else
     love.graphics.draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
   end
-
-
 end
-
--- return bullet
