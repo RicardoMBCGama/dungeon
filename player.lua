@@ -201,7 +201,7 @@ function love.keypressed( key )
      player.canShoot = false
      local bulletItem = utils.copy(bullet)
      bulletItem:load()
-     bulletItem:init(player.x, player.y, player, world.objectItems, "right")
+     bulletItem:init(player.x, player.y, player, world.objectItems, player.xDirection)
      table.insert(player.bulletItems, bulletItem)
 
    end

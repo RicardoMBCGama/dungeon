@@ -33,7 +33,14 @@ function bullet:load()
 end
 
 function bullet:init(x, y, bulletOwner, colidesWith, horizontalDirection)
-  self.x = x + 16
+
+  if horizontalDirection == "right" then
+    self.x = x + self.margin
+  else
+    self.x = x - self.margin
+  end
+
+
   self.y = y
   self.owner = bulletOwner
   self.target = colidesWith
@@ -76,7 +83,7 @@ function bullet:update(dt, world, player)
       end
     end
   elseif self.xDirection == 'left' then
-    mX, mY = world.absolutCoordToTileCoord(self.x + dX , self.y)
+    mX, mY = world.absolutCoordToTileCoord(self.x - dX , self.y)
 
     if mX >= 1 then
 
@@ -86,7 +93,7 @@ function bullet:update(dt, world, player)
         self.hasExploded = true
         self.animations["exploded"]:resume()
       else
-        self.x = self.x + dX
+        self.x = self.x - dX
       end
     end
   end
