@@ -15,7 +15,7 @@ bullet = {
   hasExploded = false,
   xDirection = nil,
   owner = nil,
-  target = nil,
+  targets = {},
   canDestroy = false,
   animations = {}
 
@@ -41,7 +41,7 @@ function bullet:init(x, y, bulletOwner, colidesWith, horizontalDirection)
 
   self.y = y
   self.owner = bulletOwner
-  self.target = colidesWith
+  self.targets = colidesWith
   self.xDirection = horizontalDirection
   self.wasShoot = true
 end
@@ -66,9 +66,9 @@ function bullet:update(dt, world, player)
       if world.isSolid (mX, mY) then
         self.hasExploded = true
         self.animations["exploded"]:resume()
-      -- elseif self.checkPlayerCollision(self.target) then
-      --   self.hasExploded = true
-      --   self.animations["exploded"]:resume()
+      elseif self:checkTargetCollision() then
+        self.hasExploded = true
+        self.animations["exploded"]:resume()
 
       else
         self.x = self.x + dX
@@ -91,16 +91,26 @@ function bullet:update(dt, world, player)
 end
 end
 
-function bullet:checkPlayerCollision()
-  if self.x < player.x + player.width and
-     player.x < self.x + self.width and
-     self.y < player.y + player.height and
-     player.y < self.y + self.height then
-    return true
-  else
-     return false
+function bullet:checkTargetCollision()
+
+  local collidedWithTarget = false
+
+  local i=1
+  
+
+  while self.targets[i] do
+
+    if self.x < self.targets[i].x + self.targets[i].width and
+       self.targets[i].x < self.x + self.width and
+       self.y < self.targets[i].y + self.targets[i].height and
+       self.targets[i].y < self.y + self.height then
+      -- self.targets[i]:hit()
+      collidedWithTarget = true break end
+    i = i+1
   end
-end
+    return collidedWithTarget
+  end
+
 
 function bullet:draw()
   if self.hasExploded then

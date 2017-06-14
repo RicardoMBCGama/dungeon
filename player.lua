@@ -22,7 +22,8 @@ player = {
   xDirection = "right",
   fx = require("fx"),
   canShoot = true,
-  bulletItems = {}
+  bulletItems = {},
+  enemies = {}
 
 
 
@@ -44,6 +45,7 @@ function player.load()
 
 
 
+
 end
 
 function player.update(dt, world)
@@ -58,6 +60,9 @@ function player.update(dt, world)
   local yDirection = ''
 
   player.animation:update(dt)
+
+
+  -- print(#player.enemies)
 
   -- if love.keyboard.isDown('x') then
   --
