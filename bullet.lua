@@ -99,13 +99,6 @@ function bullet:update(dt, world, player)
   end
 
 
-  -- if self.hasExploded then
-  --   self.animations["exploded"]:update(dt)
-  -- end
-
-  -- if self.fx.startAnimation then
-  --   self.fx:update(dt)
-  -- end
 end
 end
 
