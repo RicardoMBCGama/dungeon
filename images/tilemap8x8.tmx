@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="60" height="20" tilewidth="8" tileheight="8" nextobjectid="9">
+<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="60" height="20" tilewidth="8" tileheight="8" nextobjectid="17">
  <tileset firstgid="1" name="Sprite-0003" tilewidth="8" tileheight="8" tilecount="18" columns="18">
   <image source="Sprite-0003.png" width="144" height="8"/>
  </tileset>
@@ -61,5 +61,13 @@
   <object id="1" name="coin" x="120" y="79" width="8" height="8"/>
   <object id="6" name="bomb" x="16" y="48" width="8" height="8"/>
   <object id="8" name="bomb" x="8" y="56" width="8" height="8"/>
+  <object id="9" name="coin" x="200" y="87" width="8" height="8"/>
+  <object id="10" name="coin" x="264" y="95" width="8" height="8"/>
+  <object id="11" name="coin" x="312" y="112" width="8" height="8"/>
+  <object id="12" name="spike" x="192" y="128" width="8" height="8"/>
+  <object id="13" name="spike" x="200" y="128" width="8" height="8"/>
+  <object id="14" name="spike" x="208" y="128" width="8" height="8"/>
+  <object id="15" name="spike" x="264" y="128" width="8" height="8"/>
+  <object id="16" name="spike" x="256" y="128" width="8" height="8"/>
  </objectgroup>
 </map>

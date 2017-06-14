@@ -5,8 +5,7 @@
 -- - enable different sprite sheets
 require("coin")
 require("bomb")
-
--- require("coin")
+require("spike")
 require("utils")
 
 tileContent = {
