@@ -23,6 +23,7 @@ function coin:load()
   local g = anim8.newGrid(12, 8, self.fxCoinCollectImg:getWidth(), self.fxCoinCollectImg:getHeight())
   self.animations["collected"] = anim8.newAnimation(g("1-5",1), 0.1, function(animation) animation:gotoFrame(6) animation:pause() self.canDestroy = true end)
 
+
 end
 
 

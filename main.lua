@@ -94,6 +94,7 @@ function love.draw()
   end
 
   -- love.graphics.translate((-player.x + GAME_RENDER_WIDTH/2) * scaleAmount, (-player.y + GAME_RENDER_HEIGHT/2) * scaleAmount)
+  -- love.graphics.translate((-player.x + GAME_RENDER_WIDTH/2) * scaleAmount, 0)
 
 
   love.graphics.scale(scaleAmount,scaleAmount)

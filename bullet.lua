@@ -1,9 +1,10 @@
+local anim8 = require("./externalModules/anim8")
 
 bullet = {
   x = 0,
   y = 0,
-  width = 8,
-  height = 8,
+  width = 3,
+  height = 3,
   speed = 150, --200
   img = nil,
   yVelocity = 0,
@@ -14,21 +15,28 @@ bullet = {
   hasExploded = false,
   xDirection = nil,
   owner = nil,
-  fx = require("fx")
+  target = nil,
+  canDestroy = false,
+  animations = {}
 
 
 
 }
 
 function bullet:load()
-  self.img = love.graphics.newImage('images/bomb1.png')
-  self.fx:load("images/fxSmokeJump.png", 12, 8 ,"1-8", nil)
+  self.img = love.graphics.newImage('images/bullet.png')
+  -- self.fx:load("images/fxSmokeJump.png", 12, 8 ,"1-8", nil)
+
+  self.fxBulletExplosion = love.graphics.newImage("images/fxCoinCollect.png")
+  local g = anim8.newGrid(12, 8, self.fxBulletExplosion:getWidth(), self.fxBulletExplosion:getHeight())
+  self.animations["exploded"] = anim8.newAnimation(g("1-5",1), 0.1, function(animation) animation:gotoFrame(6) animation:pause() self.canDestroy = true end)
 end
 
 function bullet:init(x, y, bulletOwner, colidesWith, horizontalDirection)
   self.x = x + 16
   self.y = y
   self.owner = bulletOwner
+  self.target = colidesWith
   self.xDirection = horizontalDirection
   self.wasShoot = true
 end
@@ -42,12 +50,13 @@ function bullet:update(dt, world, player)
   -- local self.xDirection = ''
   local yDirection = ''
 
-  print(self.x)
-  print(self.y)
 
-
-  if self.wasShoot then
+  -- if self.wasShoot then
   dX = self.speed * dt
+
+  if self.hasExploded then
+    self.animations["exploded"]:update(dt)
+  else
 
   if self.xDirection == 'right' then
     mX, mY = world.absolutCoordToTileCoord(self.x + dX + self.width, self.y)
@@ -55,8 +64,13 @@ function bullet:update(dt, world, player)
     if mX <= world.w then
       if world.isSolid (mX, mY) then
 
-        self.fx:init(self.x, self.y)
+        -- self.fx:init(self.x, self.y)
         self.hasExploded = true
+        self.animations["exploded"]:resume()
+      -- elseif self.checkPlayerCollision(self.target) then
+      --   self.hasExploded = true
+      --   self.animations["exploded"]:resume()
+
       else
         self.x = self.x + dX
       end
@@ -68,8 +82,9 @@ function bullet:update(dt, world, player)
 
       if world.isSolid (mX, mY) then
 
-        self.fx:init(self.x, self.y)
+        -- self.fx:init(self.x, self.y)
         self.hasExploded = true
+        self.animations["exploded"]:resume()
       else
         self.x = self.x + dX
       end
@@ -77,57 +92,17 @@ function bullet:update(dt, world, player)
   end
 
 
-  -- self.yVelocity = self.yVelocity - self.gravity * dt
-  -- dY = self.yVelocity * dt
-  --
-  --
-  --   mX, mY = world.absolutCoordToTileCoord(self.x, self.y + dY)
-  --   mwX, mwY = world.absolutCoordToTileCoord(self.x + self.width, self.y + dY)
-  --
-  -- if world.isSolid(mX,mY) or world.isSolid(mwX, mwY) then
-  --     self.y = mY * world.tileSize - self.height
-  --     self.isOnGround = true
-  -- else
-  --   self.y = self.y + dY
-  --   self.isOnGround = false
+  -- if self.hasExploded then
+  --   self.animations["exploded"]:update(dt)
   -- end
-  --
-  --
-  -- self.yVelocity = self.yVelocity - self.gravity * dt
-  -- dY = self.yVelocity * dt
-  --
-  --
-  --   mX, mY = world.absolutCoordToTileCoord(self.x, self.y + dY)
-  --   mwX, mwY = world.absolutCoordToTileCoord(self.x + self.width, self.y + dY)
-  --
-  -- if world.isSolid(mX,mY) or world.isSolid(mwX, mwY) then
-  --     self.y = mY * world.tileSize - self.height
-  --     self.isOnGround = true
-  -- else
-  --   self.y = self.y + dY
-  --   self.isOnGround = false
+
+  -- if self.fx.startAnimation then
+  --   self.fx:update(dt)
   -- end
-  --
-  --
-  -- if self.isOnGround then
-  --   self.yVelocity = 0
-  --   self.fx:init(self.x, self.y)
-  --   self.hasExploded = true
-  -- end
-  --
-  -- -- if self:checkPlayerCollision(player) then
-  -- --   player.hit()
-  -- --   self.fx:init(self.x, self.y)
-  -- --   self.hasExploded = true
-  -- -- end
-  --
-  if self.fx.startAnimation then
-    self.fx:update(dt)
-  end
 end
 end
 
-function bullet:checkPlayerCollision(player)
+function bullet:checkPlayerCollision()
   if self.x < player.x + player.width and
      player.x < self.x + self.width and
      self.y < player.y + player.height and
@@ -139,13 +114,16 @@ function bullet:checkPlayerCollision(player)
 end
 
 function bullet:draw()
-  love.graphics.draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
-  self.fx:draw()
+
+
+
+  if self.hasExploded then
+    self.animations["exploded"]:draw(self.fxBulletExplosion, self.x, self.y, 0, 1, 1, 0, 8)
+  else
+    love.graphics.draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
+  end
+
 
 end
 
-function bullet:onfxAnimationEnd()
-  self.fx.startAnimation = false
-end
-
-return bullet
+-- return bullet

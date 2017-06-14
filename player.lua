@@ -1,6 +1,8 @@
 local anim8 = require("./externalModules/anim8")
 -- local fx = require("fx")
 
+require("bullet")
+
 player = {
   x = 0,
   y = 0,
@@ -18,7 +20,9 @@ player = {
   score = 0,
   life = 3,
   xDirection = "right",
-  fx = require("fx")
+  fx = require("fx"),
+  canShoot = true,
+  bulletItems = {}
 
 
 
@@ -36,6 +40,7 @@ function player.load()
 
   player.animation = player.basicAnimation
   player.fx:load("images/fxPlayerJump.png", 12, 8 ,"1-6")
+  -- player.bullet:load()
 
 
 
@@ -53,6 +58,33 @@ function player.update(dt, world)
   local yDirection = ''
 
   player.animation:update(dt)
+
+  -- if love.keyboard.isDown('x') then
+  --
+  --   local bulletItem = utils.copy(bullet)
+  --   bulletItem:load()
+  --   bulletItem:init(player.x, player.y, player, nil, "right")
+  --   table.insert(player., bulletItem)
+  -- end
+
+
+
+  -- Update bulletItems
+
+  local i=1
+  while player.bulletItems[i] do
+    if player.bulletItems[i].canDestroy then
+
+      table.remove(player.bulletItems, i)
+
+    else
+      player.bulletItems[i]:update(dt, world, player)
+    end
+    i = i + 1
+  end
+
+
+
 
 
 
@@ -120,7 +152,7 @@ function player.update(dt, world)
 
   if player.isOnGround then
     player.yVelocity = 0
-    if love.keyboard.isDown('space') then
+    if love.keyboard.isDown('c') then
       player.isOnGround = false
       -- player.animation = player.jumpAnimation
       player.fx:init(player.x, player.y)
@@ -140,6 +172,9 @@ end
 function player.draw()
   player.animation:draw(player.img, player.x, player.y, 0, 1, 1, 0, 8)
   player.fx:draw()
+  for i = 1, #player.bulletItems do
+    player.bulletItems[i]:draw()
+  end
 end
 
 function player.hit()
@@ -156,4 +191,24 @@ end
 
 function player.scoreIncrease()
   player.score = player.score + 1
+end
+
+
+
+-- Check keyboard press and release to control shooting intervals
+function love.keypressed( key )
+   if key == "x" and player.canShoot then
+     player.canShoot = false
+     local bulletItem = utils.copy(bullet)
+     bulletItem:load()
+     bulletItem:init(player.x, player.y, player, world.objectItems, "right")
+     table.insert(player.bulletItems, bulletItem)
+
+   end
+end
+
+function love.keyreleased( key )
+   if key == "x" then
+      player.canShoot = true
+   end
 end
