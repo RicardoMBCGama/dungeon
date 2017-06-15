@@ -82,6 +82,9 @@ function bullet:update(dt, world, player)
       if world.isSolid (mX, mY) then
         self.hasExploded = true
         self.animations["exploded"]:resume()
+      elseif self:checkTargetCollision() then
+        self.hasExploded = true
+        self.animations["exploded"]:resume()
       else
         self.x = self.x - dX
       end
@@ -96,7 +99,7 @@ function bullet:checkTargetCollision()
   local collidedWithTarget = false
 
   local i=1
-  
+
 
   while self.targets[i] do
 

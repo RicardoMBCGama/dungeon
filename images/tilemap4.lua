@@ -8,7 +8,7 @@ return {
   height = 20,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 37,
+  nextobjectid = 43,
   properties = {},
   tilesets = {
     {
@@ -507,6 +507,32 @@ return {
           shape = "rectangle",
           x = 472,
           y = 152,
+          width = 8,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 39,
+          name = "enemyGoat",
+          type = "",
+          shape = "rectangle",
+          x = 184,
+          y = 112,
+          width = 8,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 42,
+          name = "enemyGoat",
+          type = "",
+          shape = "rectangle",
+          x = 184,
+          y = 120,
           width = 8,
           height = 8,
           rotation = 0,

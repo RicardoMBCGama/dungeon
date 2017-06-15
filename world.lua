@@ -6,6 +6,7 @@
 require("coin")
 require("bomb")
 require("spike")
+require("enemyGoat")
 require("utils")
 
 tileContent = {

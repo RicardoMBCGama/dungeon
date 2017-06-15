@@ -6,7 +6,7 @@ require("bullet")
 player = {
   x = 0,
   y = 0,
-  width = 8,
+  width = 7, -- to be checked
   height = 8,
   speed = 100, --200
   img = nil,
