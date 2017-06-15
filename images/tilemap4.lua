@@ -8,7 +8,7 @@ return {
   height = 20,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 43,
+  nextobjectid = 45,
   properties = {},
   tilesets = {
     {
@@ -123,19 +123,6 @@ return {
       draworder = "topdown",
       properties = {},
       objects = {
-        {
-          id = 1,
-          name = "coin",
-          type = "",
-          shape = "rectangle",
-          x = 120,
-          y = 79,
-          width = 8,
-          height = 8,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
         {
           id = 6,
           name = "bomb",
@@ -518,8 +505,8 @@ return {
           name = "enemyGoat",
           type = "",
           shape = "rectangle",
-          x = 184,
-          y = 112,
+          x = 136,
+          y = 127,
           width = 8,
           height = 8,
           rotation = 0,
@@ -527,12 +514,12 @@ return {
           properties = {}
         },
         {
-          id = 42,
+          id = 43,
           name = "enemyGoat",
           type = "",
           shape = "rectangle",
-          x = 184,
-          y = 120,
+          x = 120,
+          y = 79,
           width = 8,
           height = 8,
           rotation = 0,

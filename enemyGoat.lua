@@ -8,7 +8,7 @@ enemyGoat = {
   y = 0,
   width = 8, -- to be checked
   height = 8,
-  speed = 100, --200
+  speed = 20, --200
   img = nil,
   animation = nil,
   yVelocity = 0,
@@ -23,7 +23,8 @@ enemyGoat = {
   fx = require("fx"),
   canShoot = true,
   bulletItems = {},
-  enemies = {}
+  enemies = {},
+  animations = {}
 
 
 
@@ -36,8 +37,8 @@ function enemyGoat:load()
   self.img = love.graphics.newImage('images/enemyGoat.png')
   local g = anim8.newGrid(8, 8, self.img:getWidth(), self.img:getHeight())
 
-  self.basicAnimation = anim8.newAnimation(g('1-4',1), 0.15)
-  self.animation = self.basicAnimation
+  self.animations["standing"]= anim8.newAnimation(g('1-4',1), 0.15)
+  -- self.animation = self.basicAnimation
 end
 
 function enemyGoat:init(x, y)
@@ -46,112 +47,71 @@ function enemyGoat:init(x, y)
 end
 
 
-function enemyGoat:update(dt, world)
-
+function enemyGoat:update(dt, world, player)
 
   local dX = 0
-  local dY = 0
-  local mX, mY
-  local left = 0
-  local down = 0
-  local xDirection = ''
-  local yDirection = ''
 
-  self.animation:update(dt)
+  self.animations["standing"]:update(dt)
 
-  --
-  -- if love.keyboard.isDown('right') then
-  --   if player.x < (world.w * world.tileSize - player.width) then
-  --     dX = player.speed * dt
-  --     player.xDirection = 'right'
-  --   end
-  -- elseif love.keyboard.isDown('left') then
-  --   if player.x > 0 then
-  --     dX = -player.speed * dt
-  --     player.xDirection = 'left'
-  --   end
-  -- end
-  --
-  -- if player.xDirection == 'right' then
-  --   mX, mY = world.absolutCoordToTileCoord(player.x + dX + player.width, player.y)
-  --
-  --   if mX <= world.w then
-  --     if world.isSolid (mX, mY) then
-  --       player.x = math.floor((player.x + dX + player.width)/world.tileSize) * world.tileSize - player.width
-  --     else
-  --       player.x = player.x + dX
-  --     end
-  --   end
-  -- elseif player.xDirection == 'left' then
-  --   mX, mY = world.absolutCoordToTileCoord(player.x + dX , player.y)
-  --
-  --   if mX >= 1 then
-  --
-  --     if world.isSolid (mX, mY) then
-  --       player.x = (math.floor((player.x + dX)/world.tileSize) + 1) * world.tileSize + player.margin -- is the margin we want from obstacle to player
-  --     else
-  --       player.x = player.x + dX
-  --     end
-  --   end
-  -- end
-  --
-  -- player.yVelocity = player.yVelocity - player.gravity * dt
-  -- dY = player.yVelocity * dt
-  --
-  -- if player.yVelocity > 0 then
-  --   mX, mY = world.absolutCoordToTileCoord(player.x, player.y + dY)
-  --   mwX, mwY = world.absolutCoordToTileCoord(player.x + player.width, player.y + dY)
-  -- else
-  --   mX, mY = world.absolutCoordToTileCoord(player.x, player.y - player.height+ dY)
-  --   mwX, mwY = world.absolutCoordToTileCoord(player.x + player.width, player.y - player.height+ dY)
-  -- end
-  --
-  -- if world.isSolid(mX,mY) or world.isSolid(mwX, mwY) then
-  --   if player.yVelocity > 0 then
-  --
-  --     player.y = mY * world.tileSize - player.height
-  --     player.isOnGround = true
-  --     player.animation = player.basicAnimation
-  --   else
-  --     player.y = mY * world.tileSize + player.height
-  --     player.yVelocity = - player.gravity * dt
-  --   end
-  -- else
-  --   player.y = player.y + dY
-  --   player.isOnGround = false
-  -- end
-  -- -- print(player.isOnGround)
-  --
-  -- if player.isOnGround then
-  --   player.yVelocity = 0
-  --   if love.keyboard.isDown('c') then
-  --     player.isOnGround = false
-  --     -- player.animation = player.jumpAnimation
-  --     player.fx:init(player.x, player.y)
-  --
-  --     player.yVelocity = player.jumpHeight
-  --     dY = player.yVelocity * dt
-  --     player.y = player.y + dY
-  --   end
-  -- end
+  if self:checkPlayerCollision(player) then
+    player.hit()
+  end
+
+  if self.xDirection == "right" then
+    dX = self.speed * dt
+    self.xDirection = "right"
+  elseif self.xDirection == "left" then
+    dX = -self.speed * dt
+    self.xDirection = "left"
+  end
+
+  if self.xDirection == 'right' then
+    mX, mY = world.absolutCoordToTileCoord(self.x + dX + self.width, self.y)
+
+    if mX <= world.w then
+      if world.isSolid (mX, mY) or not world.isSolid (mX, mY+1) then
+        self.xDirection = "left"
+      else
+        self.x = self.x + dX
+      end
+    end
+  elseif self.xDirection == 'left' then
+    mX, mY = world.absolutCoordToTileCoord(self.x + dX , self.y)
+
+    if mX >= 1 then
+      if world.isSolid (mX, mY) or not world.isSolid (mX, mY+1) then
+        self.xDirection = "right"
+      else
+        self.x = self.x + dX
+      end
+    end
+  end
+
+end
 
 
+function enemyGoat:checkPlayerCollision(player)
+  if self.x < player.x + player.width and
+     player.x < self.x + self.width and
+     self.y < player.y + player.height and
+     player.y < self.y + self.height then
+    return true
+  else
+    return false
+  end
 end
 
 function enemyGoat:draw()
-  self.animation:draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
+  self.animations["standing"]:draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
 end
 
 function enemyGoat:hit()
-
-
   if self.life > 0 then
     self.life = self.life - 1
   else
     self.isDeath = true
+    self.canDestroy = true
   end
-
-
 end
 
 function enemyGoat:scoreIncrease()
