@@ -106,7 +106,7 @@ function bullet:checkTargetCollision()
     if self.x < self.targets[i].x + self.targets[i].width and
        self.targets[i].x < self.x + self.width and
        self.y < self.targets[i].y + self.targets[i].height and
-       self.targets[i].y < self.y + self.height then
+       self.targets[i].y < self.y + self.height and not self.targets[i].isDead then
          --TODO: Add :hit() on targets
 
       if self.targets[i].hit ~= nil then
