@@ -16,7 +16,7 @@ player = {
   gravity = -800,
   isOnGround = false,
   margin = 0.1,
-  isDeath = false,
+  isDead = false,
   score = 0,
   life = 3,
   xDirection = "right",
@@ -188,7 +188,7 @@ function player.hit()
   if player.life > 0 then
     player.life = player.life - 1
   else
-    player.isDeath = true
+    player.isDead = true
   end
 
 

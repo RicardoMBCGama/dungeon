@@ -11,12 +11,13 @@ enemyGoat = {
   speed = 20, --200
   img = nil,
   animation = nil,
+  deadAnimationImg = nil,
   yVelocity = 0,
   jumpHeight = -250, --400
   gravity = -800,
   isOnGround = true,
   margin = 0.1,
-  isDeath = false,
+  isDead = false,
   score = 0,
   life = 3,
   xDirection = "right",
@@ -36,9 +37,15 @@ function enemyGoat:load()
   -- player.img = love.graphics.newImage('images/player2.png')
   self.img = love.graphics.newImage('images/enemyGoat.png')
   local g = anim8.newGrid(8, 8, self.img:getWidth(), self.img:getHeight())
-
   self.animations["standing"]= anim8.newAnimation(g('1-4',1), 0.15)
-  -- self.animation = self.basicAnimation
+
+  self.deadAnimationImg = love.graphics.newImage("images/enemyDeath.png")
+  local g = anim8.newGrid(12, 8, self.deadAnimationImg:getWidth(), self.deadAnimationImg:getHeight())
+  self.animations["death"] = anim8.newAnimation(g("1-8",1), 0.1, function(animation) animation:gotoFrame(9) animation:pause() self.canDestroy = true end)
+  self.animations["death"]:pause()
+
+
+
 end
 
 function enemyGoat:init(x, y)
@@ -51,9 +58,9 @@ function enemyGoat:update(dt, world, player)
 
   local dX = 0
 
-  if self.isDeath then
-    self.canDestroy = true
-  end
+  if self.isDead then
+    self.animations["death"]:update(dt)
+  else
 
   self.animations["standing"]:update(dt)
 
@@ -93,6 +100,8 @@ function enemyGoat:update(dt, world, player)
 
 end
 
+end
+
 
 function enemyGoat:checkPlayerCollision(player)
   if self.x < player.x + player.width and
@@ -106,16 +115,19 @@ function enemyGoat:checkPlayerCollision(player)
 end
 
 function enemyGoat:draw()
-  self.animations["standing"]:draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
+  if self.isDead then
+    self.animations["death"]:draw(self.deadAnimationImg, self.x, self.y, 0, 1, 1, 0, 8)
+  else
+    self.animations["standing"]:draw(self.img, self.x, self.y, 0, 1, 1, 0, 8)
+  end
 end
 
 function enemyGoat:hit()
   if self.life > 0 then
     self.life = self.life - 1
   else
-    self.isDeath = true
-    -- NOTE: this is not here, first set isDeath = true, than animate and on animation end set canDestroy = true
-    -- self.canDestroy = true
+    self.isDead = true
+    self.animations["death"]:resume()
   end
 end
 
