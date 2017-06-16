@@ -33,6 +33,7 @@ function love.load()
 
   world.init()
   world.placeObject("coinLayer")
+  world.placeObject("enemyLayer")
 
 
   player.load()

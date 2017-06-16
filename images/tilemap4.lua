@@ -8,7 +8,7 @@ return {
   height = 20,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 45,
+  nextobjectid = 47,
   properties = {},
   tilesets = {
     {
@@ -499,24 +499,23 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
-        },
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "enemyLayer",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
         {
-          id = 39,
+          id = 45,
           name = "enemyGoat",
-          type = "",
-          shape = "rectangle",
-          x = 136,
-          y = 127,
-          width = 8,
-          height = 8,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 43,
-          name = "enemyGoat",
-          type = "",
+          type = "enemy",
           shape = "rectangle",
           x = 120,
           y = 79,

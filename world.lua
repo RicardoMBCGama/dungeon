@@ -146,7 +146,7 @@ end
 function world.placeObject(objectLayer)
 
   for tileLayer = 1, #world.tiledTileMap.layers, 1 do
-    if world.tiledTileMap.layers[tileLayer].visible and world.tiledTileMap.layers[tileLayer].type == "objectgroup" then
+    if world.tiledTileMap.layers[tileLayer].name == objectLayer and world.tiledTileMap.layers[tileLayer].visible and world.tiledTileMap.layers[tileLayer].type == "objectgroup" then
 
       for object = 1, #world.tiledTileMap.layers[tileLayer].objects do
         -- copy object - needs to be required and global

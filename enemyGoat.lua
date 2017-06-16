@@ -51,6 +51,10 @@ function enemyGoat:update(dt, world, player)
 
   local dX = 0
 
+  if self.isDeath then
+    self.canDestroy = true
+  end
+
   self.animations["standing"]:update(dt)
 
   if self:checkPlayerCollision(player) then

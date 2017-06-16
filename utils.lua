@@ -15,3 +15,14 @@ function utils.copy(orig)
     end
     return copy
 end
+
+-- TODO: create filter function to filter enemies, objects, etc
+-- function utils.filter(func, tbl)
+--      local newtbl= {}
+--      for i,v in pairs(tbl) do
+--          if func(v) then
+-- 	     newtbl[i]=v
+--          end
+--      end
+--      return newtbl
+--  end
