@@ -110,7 +110,8 @@ function enemyGoat:hit()
     self.life = self.life - 1
   else
     self.isDeath = true
-    self.canDestroy = true
+    -- NOTE: this is not here, first set isDeath = true, than animate and on animation end set canDestroy = true
+    -- self.canDestroy = true
   end
 end
 

@@ -107,6 +107,7 @@ function bullet:checkTargetCollision()
        self.targets[i].x < self.x + self.width and
        self.y < self.targets[i].y + self.targets[i].height and
        self.targets[i].y < self.y + self.height then
+         --TODO: Add :hit() on targets
       -- self.targets[i]:hit()
       collidedWithTarget = true break end
     i = i+1
