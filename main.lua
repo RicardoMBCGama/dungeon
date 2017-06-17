@@ -88,10 +88,16 @@ function love.draw()
   love.graphics.translate(-world.worldOffsetX * world.tileSize * scaleAmount , 0 )
   -- love.graphics.translate(xPadding/scaleAmount, 0)
 
-  local trans = math.floor(player.x / GAME_RENDER_WIDTH)
+  local xTrans = math.floor(player.x / GAME_RENDER_WIDTH)
 
-  if trans > 0 then
-    love.graphics.translate(- trans * GAME_RENDER_WIDTH* scaleAmount, 0)
+  if xTrans > 0 then
+    love.graphics.translate(- xTrans * GAME_RENDER_WIDTH* scaleAmount, 0)
+  end
+
+  local yTrans = math.floor(player.y / GAME_RENDER_HEIGHT)
+
+  if yTrans > 0 then
+    love.graphics.translate(0,- yTrans * GAME_RENDER_HEIGHT* scaleAmount)
   end
 
   -- love.graphics.translate((-player.x + GAME_RENDER_WIDTH/2) * scaleAmount, (-player.y + GAME_RENDER_HEIGHT/2) * scaleAmount)
