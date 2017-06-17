@@ -56,6 +56,7 @@ end
 
 function enemyGoat:update(dt, world, player)
 
+
   local dX = 0
 
   if self.isDead then
@@ -123,7 +124,7 @@ function enemyGoat:draw()
 end
 
 function enemyGoat:hit()
-  if self.life > 0 then
+  if self.life > 1 then
     self.life = self.life - 1
   else
     self.isDead = true
