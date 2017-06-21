@@ -26,3 +26,8 @@ end
 --      end
 --      return newtbl
 --  end
+
+-- TODO: test camera lerp
+function utils.lerp(a, b, t)
+  return a + (b - a) * t
+end
