@@ -2,13 +2,15 @@
 bomb = {
   x = 0,
   y = 0,
-  width = 8,
-  height = 8,
+  initialX = 0,
+  initialY = 0,
+  width = 3,
+  height = 3,
   speed = 150, --200
   img = nil,
-  yVelocity = 0,
+  yVelocity = 50,
   jumpHeight = -300, --400
-  gravity = -20, -- -200,
+  gravity = 0,---20, -- -200,
   isOnGround = false,
   margin = 0.1,
   hasExploded = false,
@@ -20,13 +22,15 @@ bomb = {
 }
 
 function bomb:load()
-  self.img = love.graphics.newImage('images/bomb1.png')
+  self.img = love.graphics.newImage('images/bullet.png')
   self.fx:load("images/fxSmokeJump.png", 12, 8 ,"1-8", nil)
 end
 
 function bomb:init(x, y)
   self.x = x
   self.y = y
+  self.initialX = x
+  self.initialY = y
 end
 
 function bomb:update(dt, world, player)
@@ -56,17 +60,21 @@ function bomb:update(dt, world, player)
 
 
   if self.isOnGround then
-    self.yVelocity = 0
-    self.fx:init(self.x, self.y)
-    self.hasExploded = true
-    self.canDestroy = true
+    -- self.yVelocity = 0
+    -- self.fx:init(self.x, self.y)
+    -- self.hasExploded = true
+    -- self.canDestroy = true
+    self.x = self.initialX
+    self.y = self.initialY
   end
 
   if self:checkPlayerCollision(player) then
     player.hit()
-    self.fx:init(self.x, self.y)
-    self.hasExploded = true
-    self.canDestroy = true
+    -- self.fx:init(self.x, self.y)
+    -- self.hasExploded = true
+    -- self.canDestroy = true
+    self.x = self.initialX
+    self.y = self.initialY
   end
 
   if self.fx.startAnimation then

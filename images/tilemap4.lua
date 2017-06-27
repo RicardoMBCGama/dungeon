@@ -8,7 +8,7 @@ return {
   height = 40,
   tilewidth = 8,
   tileheight = 8,
-  nextobjectid = 80,
+  nextobjectid = 82,
   properties = {},
   tilesets = {
     {
@@ -871,6 +871,19 @@ return {
           shape = "rectangle",
           x = 400,
           y = 183,
+          width = 8,
+          height = 8,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 80,
+          name = "bomb",
+          type = "",
+          shape = "rectangle",
+          x = 400,
+          y = 249,
           width = 8,
           height = 8,
           rotation = 0,

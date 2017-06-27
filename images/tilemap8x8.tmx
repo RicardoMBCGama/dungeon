@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="8" tileheight="8" nextobjectid="80">
+<map version="1.0.0" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="8" tileheight="8" nextobjectid="82">
  <tileset firstgid="1" name="Sprite-0003" tilewidth="8" tileheight="8" tilecount="50" columns="10">
   <image source="Sprite-0003.png" width="80" height="40"/>
  </tileset>
@@ -154,5 +154,6 @@
   <object id="77" name="enemyGoat" type="enemy" x="424" y="215" width="8" height="8"/>
   <object id="78" name="enemyGoat" type="enemy" x="336" y="215" width="8" height="8"/>
   <object id="79" name="enemyGoat" type="enemy" x="400" y="183" width="8" height="8"/>
+  <object id="80" name="bomb" x="400" y="249" width="8" height="8"/>
  </objectgroup>
 </map>
