@@ -8,9 +8,9 @@ bomb = {
   height = 3,
   speed = 150, --200
   img = nil,
-  yVelocity = 50,
+  yVelocity = 10,
   jumpHeight = -300, --400
-  gravity = 0,---20, -- -200,
+  gravity = -10,---20, -- -200,
   isOnGround = false,
   margin = 0.1,
   hasExploded = false,
@@ -47,11 +47,11 @@ function bomb:update(dt, world, player)
   dY = self.yVelocity * dt
 
 
-    mX, mY = world.absolutCoordToTileCoord(self.x, self.y + dY)
-    mwX, mwY = world.absolutCoordToTileCoord(self.x + self.width, self.y + dY)
+    mX, mY = world.absolutCoordToTileCoord(self.x, self.y)-- + dY)
+    -- mwX, mwY = world.absolutCoordToTileCoord(self.x + self.width, self.y + dY)
 
-  if world.isSolid(mX,mY) or world.isSolid(mwX, mwY) then
-      self.y = mY * world.tileSize - self.height
+  if world.isSolid(mX,mY)  then
+      -- self.y = (mY + dY) * world.tileSize - self.height
       self.isOnGround = true
   else
     self.y = self.y + dY
@@ -60,7 +60,7 @@ function bomb:update(dt, world, player)
 
 
   if self.isOnGround then
-    -- self.yVelocity = 0
+    self.yVelocity = 0
     -- self.fx:init(self.x, self.y)
     -- self.hasExploded = true
     -- self.canDestroy = true

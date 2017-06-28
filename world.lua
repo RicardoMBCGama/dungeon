@@ -7,6 +7,7 @@ require("coin")
 require("bomb")
 require("spike")
 require("enemyGoat")
+require("movingPlatform")
 require("utils")
 
 tileContent = {
@@ -110,6 +111,17 @@ function world.putTile(mX, mY, mSprite)
   world.tileMap[mX][mY] = mySprite
 end
 
+--
+function world.setSolid(mX, mY)
+  world.tileMap[mX][mY] = 1
+end
+
+function world.unsetSolid(mX, mY)
+  world.tileMap[mX][mY] = 0
+end
+
+
+
 -- get tile at specific coordinates
 function world.getTile(mX, mY)
   return world.tileMap[mX][mY]
@@ -156,6 +168,10 @@ function world.placeObject(objectLayer)
         objX = world.tiledTileMap.layers[tileLayer].objects[object].x + 1 * world.tileSize + objectItem.margin
         objY = world.tiledTileMap.layers[tileLayer].objects[object].y + 1 * world.tileSize + objectItem.margin
         objectItem:init(objX, objY)
+        if world.tiledTileMap.layers[tileLayer].objects[object].name == "movingPlatform" then
+          objectItem.moveSpan = world.tiledTileMap.layers[tileLayer].objects[object].properties["moveSpan"]
+        end
+
         table.insert(world.objectItems, objectItem)
 
       end
